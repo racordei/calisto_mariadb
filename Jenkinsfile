@@ -1,7 +1,7 @@
 pipeline {
   
   agent {
-    label "windows"
+    label "linux"
   }
   
   stages {
@@ -9,7 +9,7 @@ pipeline {
     stage("Test") {
       
       steps {
-        bat 'wsl.exe -d Ubuntu-20.04'
+        sh 'docker container ls'
       }
     }
   }
