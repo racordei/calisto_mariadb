@@ -9,7 +9,7 @@ pipeline {
     stage("Test") {
       
       steps {
-        echo 'Testing the dockerfile...'
+        bat 'wsl.exe -d Ubuntu-20.04'
       }
     }
   }
