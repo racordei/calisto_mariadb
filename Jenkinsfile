@@ -1,28 +1,15 @@
 pipeline {
   
-  agent any
+  agent {
+    label "windows"
+  }
   
   stages {
     
-    stage("build") {
+    stage("Test") {
       
       steps {
-        echo 'building the application...'
-        bat "java -version"
-      }
-    }
-    
-    stage("test") {
-      
-      steps {
-        echo 'testing the application...'
-      }
-    }
-    
-    stage("deploy") {
-      
-      steps {
-        echo 'deploying the application...'
+        echo 'Testing the dockerfile...'
       }
     }
   }
