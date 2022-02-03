@@ -29,7 +29,7 @@ pipeline {
     stage("Test") {
       steps {
         script {
-          sh "Testing message only..."
+          echo "Testing message only..."
           if (env.BRANCH_NAME == 'master') {
             mode = ''
           } else if (env.BRANCH_NAME == 'develop') {
