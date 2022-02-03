@@ -32,7 +32,7 @@ pipeline {
           sh "Testing message only..."
           if (env.BRANCH_NAME == 'master') {
             mode = ''
-          } else if (env.BRANCH_NAME == 'development') {
+          } else if (env.BRANCH_NAME == 'develop') {
             mode = '.dev'
           }
         }
