@@ -1,23 +1,50 @@
 pipeline {
   
   agent {
-    label "windows"
+    label "linux"
+  }
+
+  environment {
+    // exemplos 
+    tag = ""
+    imageName = ""
+    mode = ""
+    project = "calisto"
   }
   
   stages {
+    stage("Git Hash") {
+      steps {
+        script {
+          echo "Git Hash"
+          sh "git rev-parse --short HEAD > commit-id"
+          tag = readFile('commit-id').replace("\n", "").replace("\r", "")
+          echo "Git Hash $tag"
+          imageName = "calisto/mariadb:$tag"
+          echo "Image name $imageName"
+        }
+      }
+    }
     
     stage("Test") {
-      
       steps {
-        withCredentials([usernamePassword(credentialsId: 'mygithub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          // available as an env variable, but will be masked if you try to print it out any which way
-          // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
-          bat 'echo %PASSWORD%'
-          // also available as a Groovy variable
-          echo USERNAME
-          // or inside double quotes for string interpolation
-          echo "username is $USERNAME"
+        script {
+          sh "Testing message only..."
+          if (env.BRANCH_NAME == 'master') {
+            mode = ''
+          } else if (env.BRANCH_NAME == 'development') {
+            mode = '.dev'
+          }
         }
+      }
+    }
+
+    stage("Deploy") {
+      steps {
+        sh "docker container stop calisto_mariadb${mode}"
+        sh "docker container rm calisto_mariadb${mode}"
+        sh "docker image rm calisto/mariadb${mode}"
+        sh "docker-compose --env-file .env${mode} -p calisto${mode} -f docker-compose${mode}.yml up --build --detach"
       }
     }
   }

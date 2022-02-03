@@ -25,9 +25,9 @@ docker-compose --env-file .env.dev -p calisto_dev -f docker-compose.dev.yml up -
 ## To cleanup and rebuild
 
 ```bash
-docker container stop calisto_mariadb_dev
-docker container rm calisto_mariadb_dev
-docker image rm calisto/mariadb_dev
+docker container stop calisto_mariadb.dev
+docker container rm calisto_mariadb.dev
+docker image rm calisto/mariadb.dev
 docker volume prune -f
 docker network prune -f
 ```

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   database:
-    container_name: calisto_mariadb_dev
+    container_name: calisto_mariadb.dev
     hostname: calisto_mariadb_dev
     build:
       context: .
