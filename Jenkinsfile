@@ -41,9 +41,15 @@ pipeline {
 
     stage("Deploy") {
       steps {
-        sh "docker container stop calisto_mariadb${mode}"
-        sh "docker container rm calisto_mariadb${mode}"
-        sh "docker image rm calisto/mariadb${mode}"
+        script {
+          try {
+            sh "docker container stop calisto_mariadb${mode}"
+            sh "docker container rm calisto_mariadb${mode}"
+            sh "docker image rm calisto/mariadb${mode}"
+          } catch (err) {
+            echo err.getMessage()
+          }
+        }
         sh "docker-compose --env-file .env${mode} -p calisto${mode} -f docker-compose${mode}.yml up --build --detach"
       }
     }
