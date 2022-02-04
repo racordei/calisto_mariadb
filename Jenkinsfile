@@ -50,7 +50,7 @@ pipeline {
             echo err.getMessage()
           }
         }
-        sh "docker-compose --env-file .env${mode} -p calisto${mode} -f docker-compose${mode}.yml up --build --detach"
+        sh "docker-compose --env-file ${ENV_STORE}/.env.calisto${mode} -p calisto${mode} -f docker-compose${mode}.yml up --build --detach"
       }
     }
   }
